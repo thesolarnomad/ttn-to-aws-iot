@@ -1,0 +1,116 @@
+[{
+    "id": "61e53377.f5409c",
+    "type": "ttn",
+    "z": "c324b99b.b8cbe8",
+    "appEUI": "<APPEUI>",
+    "accessKey": "<ACCESSKEY>",
+    "broker": "staging.thethingsnetwork.org",
+    "name": "TTN app",
+    "x": 92,
+    "y": 262,
+    "wires": [
+        ["34a2a74d.23bcd8", "667c6a69.217e04"],
+        []
+    ]
+}, {
+    "id": "34a2a74d.23bcd8",
+    "type": "debug",
+    "z": "c324b99b.b8cbe8",
+    "name": "incoming",
+    "active": true,
+    "console": "false",
+    "complete": "true",
+    "x": 99,
+    "y": 365,
+    "wires": []
+}, {
+    "id": "336001a9.11d87e",
+    "type": "mqtt out",
+    "z": "c324b99b.b8cbe8",
+    "name": "AWS iot",
+    "topic": "",
+    "qos": "1",
+    "retain": "",
+    "broker": "34ce200e.e0b0d",
+    "x": 551,
+    "y": 255,
+    "wires": []
+}, {
+    "id": "667c6a69.217e04",
+    "type": "function",
+    "z": "c324b99b.b8cbe8",
+    "name": "iot transform",
+    "func": "return {\n    topic: '$aws/things/' + msg.devEUI +'/shadow/update',\n    payload: {\n        \"state\": {\n            \"reported\": msg\n        }\n    }\n};",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 304,
+    "y": 255,
+    "wires": [
+        ["336001a9.11d87e", "a467af55.b7635"]
+    ]
+}, {
+    "id": "a467af55.b7635",
+    "type": "debug",
+    "z": "c324b99b.b8cbe8",
+    "name": "outgoing",
+    "active": true,
+    "console": "false",
+    "complete": "true",
+    "x": 551,
+    "y": 169,
+    "wires": []
+}, {
+    "id": "8274c1b1.8660c",
+    "type": "comment",
+    "z": "c324b99b.b8cbe8",
+    "name": "TTN network side",
+    "info": "This is your TTN app",
+    "x": 101,
+    "y": 90,
+    "wires": []
+}, {
+    "id": "dc41e838.43f778",
+    "type": "comment",
+    "z": "c324b99b.b8cbe8",
+    "name": "Transformation",
+    "info": "We adapt the topic for the AWS MQTT broker to match the thing shadow we want to update and move the message including meta data into the according field",
+    "x": 306,
+    "y": 89,
+    "wires": []
+}, {
+    "id": "1f1ddf67.57ddf1",
+    "type": "comment",
+    "z": "c324b99b.b8cbe8",
+    "name": "AWS side",
+    "info": "This is the receiving side (AWS iot)",
+    "x": 551,
+    "y": 89,
+    "wires": []
+}, {
+    "id": "34ce200e.e0b0d",
+    "type": "mqtt-broker",
+    "z": "c324b99b.b8cbe8",
+    "broker": "XXX.iot.XXX.amazonaws.com",
+    "port": "8883",
+    "tls": "70feb9d3.147378",
+    "clientid": "TTNtoAWS",
+    "usetls": true,
+    "compatmode": true,
+    "keepalive": "60",
+    "cleansession": true,
+    "willTopic": "",
+    "willQos": "0",
+    "willPayload": "",
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthPayload": ""
+}, {
+    "id": "70feb9d3.147378",
+    "type": "tls-config",
+    "z": "c324b99b.b8cbe8",
+    "name": "AWS",
+    "cert": "/data/certificates/certificate.pem.crt",
+    "key": "/data/certificates/private.pem.key",
+    "ca": "/data/certificates/verisign-rootca.pem",
+    "verifyservercert": true
+}]
