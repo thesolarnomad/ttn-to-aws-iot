@@ -15,7 +15,7 @@ Create a new Thing (the name must be a valid `devEUI` with leading zeros):
 ![AWS ioT](images/AWS_IoT.png)
 
 with a certificate (download them!) and a policy:
-```
+```json
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -37,3 +37,5 @@ Then update the flow (`flow.json`):
 * replace `<APPEUI>` and `<ACCESSKEY>` of the TTN node.
 * update the broker host: `XXX.iot.XXX.amazonaws.com` to match what is shown as `REST API endpoint` when you look into the details of your created Thing in AWS IoT.
 * put the certificates into the right spot and/or update the paths.
+
+and finally import your adapted flow into NodeRED.
